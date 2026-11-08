@@ -3,13 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✩. ๑ bio ๑ .✩</title>
+    <title>⋆.˚ ʚ 𝐿𝑎𝑣𝑖 ɞ ˚.⋆</title>
     <!-- Иконка сайта (Сакура) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     <style>
+        /* ============ ПЕРЕМЕННЫЕ (ПАСТЕЛЬНАЯ ТЕМА) ============ */
+        :root {
+            --text-main: #5e4b75;
+            --accent: #7c629c;
+            --bg-main: #e8def8;
+            --main-color: #e3b1e1;
+            --add-color: #f3e5f5;
+            --effect-color: #2d004b;
+            /* Темные и прозрачные плашки */
+            --card-bg: rgba(45, 0, 75, 0.12);
+            --card-border: rgba(255, 255, 255, 0.4);
+            --player-bg: linear-gradient(145deg, rgba(45, 0, 75, 0.18), rgba(45, 0, 75, 0.08));
+            --player-border: rgba(255, 255, 255, 0.4);
+            --overlay-bg: linear-gradient(135deg, rgba(232, 222, 248, 0.4), rgba(227, 177, 225, 0.2), rgba(243, 229, 245, 0.4));
+            --track-bg: rgba(255, 255, 255, 0.25);
+            --input-bg: rgba(255, 255, 255, 0.2);
+            --input-border: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ============ ПЕРЕМЕННЫЕ (ЧЕРНО-БЕЛАЯ ТЕМА) ============ */
+        body.bw-theme {
+            --text-main: #e0e0e0;
+            --accent: #a0a0a0;
+            --bg-main: #121212;
+            --main-color: #333333;
+            --add-color: #555555;
+            --effect-color: #000000;
+            /* Темные и прозрачные плашки для ЧБ */
+            --card-bg: rgba(0, 0, 0, 0.35);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --player-bg: linear-gradient(145deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.25));
+            --player-border: rgba(255, 255, 255, 0.15);
+            --overlay-bg: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+            --track-bg: rgba(255, 255, 255, 0.15);
+            --input-bg: rgba(255, 255, 255, 0.1);
+            --input-border: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Плавный переход всех цветов */
+        body, .bg-clouds, .bg-overlay, .profile-card, .player-card, .sound-toggle, .theme-toggle, .socials a, .name, .subtitle {
+            transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+        }
+
         /* ============ БАЗА ============ */
         * {
             box-sizing: border-box;
@@ -20,31 +63,59 @@
         body {
             min-height: 100vh;
             font-family: 'Nunito', sans-serif;
-            color: #4a405c;
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            background-color: #e8dcf5;
+            background-color: var(--bg-main);
         }
 
-        /* Фон с облаками */
-        .bg-image {
+        /* ============ ПЕРИСТЫЕ ОБЛАКА НА ФОНЕ ============ */
+        .bg-clouds {
             position: fixed;
-            inset: 0;
+            inset: -10%;
             z-index: -2;
-            background-image: url('https://images.unsplash.com/photo-1534088568595-a066f410cbda?q=80&w=2000&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            filter: brightness(1.1) contrast(0.9) opacity(0.8);
+            background-color: var(--bg-main);
+            background-image: radial-gradient(ellipse at 20% 30%, rgba(255, 255, 255, 0.7) 0%, transparent 40%), radial-gradient(ellipse at 80% 20%, rgba(255, 255, 255, 0.6) 0%, transparent 35%), radial-gradient(ellipse at 50% 80%, rgba(255, 255, 255, 0.8) 0%, transparent 45%), radial-gradient(ellipse at 10% 70%, rgba(227, 177, 225, 0.4) 0%, transparent 50%), radial-gradient(ellipse at 90% 60%, rgba(243, 229, 245, 0.6) 0%, transparent 40%);
+            filter: blur(24px);
+            animation: drift 40s ease-in-out infinite alternate;
         }
 
-        /* Пастельный оверлей */
+        /* Черно-белые облака */
+        body.bw-theme .bg-clouds {
+            background-image: radial-gradient(ellipse at 20% 30%, rgba(50, 50, 50, 0.8) 0%, transparent 40%), radial-gradient(ellipse at 80% 20%, rgba(40, 40, 40, 0.7) 0%, transparent 35%), radial-gradient(ellipse at 50% 80%, rgba(60, 60, 60, 0.8) 0%, transparent 45%), radial-gradient(ellipse at 10% 70%, rgba(30, 30, 30, 0.5) 0%, transparent 50%), radial-gradient(ellipse at 90% 60%, rgba(20, 20, 20, 0.6) 0%, transparent 40%);
+        }
+
+        .bg-clouds::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(15deg, transparent 20%, rgba(255,255,255,0.5) 40%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.5) 60%, transparent 80%), linear-gradient(75deg, transparent 30%, rgba(243,229,245,0.6) 45%, rgba(255,255,255,0.8) 50%, rgba(243,229,245,0.6) 55%, transparent 70%), linear-gradient(120deg, transparent 40%, rgba(227,177,225,0.5) 48%, rgba(255,255,255,0.8) 52%, rgba(227,177,225,0.5) 56%, transparent 60%);
+            filter: blur(16px);
+            transition: background 0.5s ease;
+        }
+
+        /* Черно-белые "перья" */
+        body.bw-theme .bg-clouds::before {
+            background: linear-gradient(15deg, transparent 20%, rgba(80,80,80,0.3) 40%, rgba(100,100,100,0.4) 50%, rgba(80,80,80,0.3) 60%, transparent 80%), linear-gradient(75deg, transparent 30%, rgba(60,60,60,0.4) 45%, rgba(90,90,90,0.5) 50%, rgba(60,60,60,0.4) 55%, transparent 70%), linear-gradient(120deg, transparent 40%, rgba(70,70,70,0.4) 48%, rgba(110,110,110,0.5) 52%, rgba(70,70,70,0.4) 56%, transparent 60%);
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translateX(-2%) translateY(-2%) scale(1);
+            }
+
+            100% {
+                transform: translateX(2%) translateY(2%) scale(1.05);
+            }
+        }
+
         .bg-overlay {
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: linear-gradient(135deg, rgba(240, 220, 255, 0.6), rgba(220, 235, 255, 0.6), rgba(255, 220, 240, 0.6));
+            background: var(--overlay-bg);
             pointer-events: none;
         }
 
@@ -58,9 +129,9 @@
 
         .star {
             position: absolute;
-            background: #fff;
+            background: var(--add-color);
             border-radius: 50%;
-            box-shadow: 0 0 4px #fff;
+            box-shadow: 0 0 6px var(--add-color);
             animation: twinkle linear infinite;
         }
 
@@ -71,7 +142,7 @@
             }
 
             50% {
-                opacity: 0.8;
+                opacity: 0.9;
             }
 
             100% {
@@ -80,7 +151,7 @@
             }
         }
 
-        /* ============ ПАДАЮЩИЕ ЛЕПЕСТКИ САКУРЫ ============ */
+        /* ============ ПАДАЮЩИЕ ЛЕПЕСТКИ ============ */
         .petals-container {
             position: fixed;
             inset: 0;
@@ -92,10 +163,10 @@
         .petal {
             position: absolute;
             top: -20px;
-            background: linear-gradient(135deg, #ffd6f0, #ffb3d9);
-            border-radius: 15px 0 15px 0; /* Форма лепестка */
-            box-shadow: 0 0 5px rgba(255, 200, 230, 0.4);
-            opacity: 0.8;
+            background: linear-gradient(135deg, var(--main-color), var(--add-color));
+            border-radius: 15px 0 15px 0;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            opacity: 0.85;
             animation: fall linear infinite, sway ease-in-out infinite alternate;
         }
 
@@ -124,7 +195,7 @@
             position: fixed;
             inset: 0;
             z-index: 100;
-            background: rgba(230, 220, 245, 0.5);
+            background: var(--overlay-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             display: flex;
@@ -142,26 +213,29 @@
         .intro-text {
             font-family: 'Playfair Display', serif;
             font-size: 22px;
-            color: #6a5a7f;
+            color: var(--text-main);
             margin-bottom: 20px;
             animation: pulse 2s infinite;
         }
 
         .enter-btn {
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            background: var(--card-bg);
+            border: 1px solid var(--input-border);
             padding: 12px 30px;
             border-radius: 30px;
             font-size: 16px;
-            color: #5a4b6e;
+            font-weight: 700;
+            color: var(--accent);
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(150, 130, 180, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
             .enter-btn:hover {
-                background: rgba(255, 255, 255, 0.7);
+                background: var(--add-color);
                 transform: scale(1.05);
+                color: var(--text-main);
             }
 
         @keyframes pulse {
@@ -174,15 +248,14 @@
             }
         }
 
-        /* ============ ИКОНКА ЗВУКА СВЕРХУ СЛЕВА ============ */
-        .sound-toggle {
+        /* ============ КНОПКИ В УГЛАХ ============ */
+        .sound-toggle, .theme-toggle {
             position: fixed;
             top: 20px;
-            left: 20px;
             width: 44px;
             height: 44px;
-            background: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
             border-radius: 12px;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -191,15 +264,24 @@
             align-items: center;
             cursor: pointer;
             z-index: 50;
-            transition: background 0.3s;
-            color: #5a4b6e;
+            transition: all 0.3s;
+            color: var(--accent);
         }
 
-            .sound-toggle:hover {
-                background: rgba(255, 255, 255, 0.5);
+        .sound-toggle {
+            left: 20px;
+        }
+
+        .theme-toggle {
+            right: 20px;
+        }
+
+            .sound-toggle:hover, .theme-toggle:hover {
+                background: var(--add-color);
+                color: var(--text-main);
             }
 
-            .sound-toggle svg {
+            .sound-toggle svg, .theme-toggle svg {
                 width: 20px;
                 height: 20px;
                 fill: currentColor;
@@ -216,30 +298,29 @@
             z-index: 10;
         }
 
-        /* ============ ГЛАВНАЯ КАРТОЧКА (Профиль) ============ */
+        /* ============ ГЛАВНАЯ КАРТОЧКА ============ */
         .profile-card {
-            background: rgba(255, 255, 255, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 24px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
             padding: 40px 30px 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(150, 130, 180, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
             position: relative;
         }
 
-        /* Аватарка */
         .avatar-container {
             position: relative;
             width: 100px;
             height: 100px;
             border-radius: 50%;
             padding: 4px;
-            background: linear-gradient(135deg, #d3c4ff, #bfe3ff 50%, #ffc9e6);
-            box-shadow: 0 8px 24px rgba(150, 130, 210, 0.3);
+            background: linear-gradient(135deg, var(--main-color), var(--add-color));
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             margin-bottom: 20px;
             transition: transform 0.3s ease;
         }
@@ -255,14 +336,18 @@
                 object-fit: cover;
                 background: #fff;
                 display: block;
+                transition: filter 0.5s ease;
             }
 
-        /* Имя и подпись */
+        body.bw-theme .avatar-container img {
+            filter: grayscale(100%);
+        }
+
         .name {
             font-family: 'Playfair Display', serif;
             font-size: 26px;
-            font-weight: 600;
-            color: #4a405c;
+            font-weight: 700;
+            color: var(--text-main);
             letter-spacing: 1px;
             margin-bottom: 5px;
             text-align: center;
@@ -270,13 +355,11 @@
 
         .subtitle {
             font-family: 'Great Vibes', cursive;
-            font-size: 20px;
-            color: #6a5a7f;
+            font-size: 22px;
+            color: var(--accent);
             margin-bottom: 20px;
-            opacity: 0.8;
         }
 
-        /* Иконки соцсетей */
         .socials {
             display: flex;
             gap: 20px;
@@ -284,7 +367,7 @@
         }
 
             .socials a {
-                color: #5a4b6e;
+                color: var(--accent);
                 transition: transform 0.2s ease, color 0.2s;
                 display: flex;
                 justify-content: center;
@@ -293,7 +376,7 @@
 
                 .socials a:hover {
                     transform: translateY(-3px);
-                    color: #8c71d9;
+                    color: var(--text-main);
                 }
 
             .socials svg {
@@ -302,7 +385,6 @@
                 fill: currentColor;
             }
 
-        /* Счётчик просмотров */
         .views {
             position: absolute;
             bottom: 20px;
@@ -311,8 +393,8 @@
             align-items: center;
             gap: 5px;
             font-size: 13px;
-            color: #6a5a7f;
-            opacity: 0.8;
+            color: var(--accent);
+            opacity: 0.9;
         }
 
             .views svg {
@@ -321,58 +403,110 @@
                 fill: currentColor;
             }
 
-        /* ============ МУЗЫКАЛЬНЫЙ ПЛЕЕР ============ */
+        /* ============ КАСТОМНЫЙ ПЛЕЕР ============ */
         .player-card {
-            background: rgba(255, 255, 255, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 12px 16px;
+            background: var(--player-bg);
+            border: 1px solid var(--player-border);
+            border-radius: 24px;
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            padding: 16px 20px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            box-shadow: 0 10px 30px rgba(150, 130, 180, 0.15);
+            gap: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .player-card::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+                pointer-events: none;
+            }
+
+        .album-wrapper {
+            position: relative;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            padding: 3px;
+            background: #222;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            flex-shrink: 0;
+            z-index: 1;
         }
 
         .album-art {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: #fff;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
             object-fit: cover;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: filter 0.5s ease;
+        }
+
+        body.bw-theme .album-art {
+            filter: grayscale(100%);
+        }
+
+        .album-wrapper.playing .album-art {
+            animation: spin 6s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .album-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: var(--bg-main);
+            border-radius: 50%;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
+            z-index: 2;
         }
 
         .player-content {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 8px;
             min-width: 0;
+            z-index: 1;
         }
 
         .track-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #4a405c;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        /* Полоса прогресса и время */
         .progress-container {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             font-size: 11px;
-            color: #6a5a7f;
+            font-weight: 600;
+            color: var(--accent);
             font-variant-numeric: tabular-nums;
         }
 
-        /* Стилизация Range Input (ползунков) */
         input[type=range] {
             -webkit-appearance: none;
             background: transparent;
@@ -384,30 +518,28 @@
                 outline: none;
             }
 
-            /* Трек ползунка */
             input[type=range]::-webkit-slider-runnable-track {
                 width: 100%;
-                height: 3px;
-                background: rgba(255, 255, 255, 0.5);
+                height: 4px;
+                background: var(--track-bg);
                 border-radius: 2px;
             }
 
             input[type=range]::-moz-range-track {
                 width: 100%;
-                height: 3px;
-                background: rgba(255, 255, 255, 0.5);
+                height: 4px;
+                background: var(--track-bg);
                 border-radius: 2px;
             }
 
-            /* Кружок ползунка */
             input[type=range]::-webkit-slider-thumb {
                 -webkit-appearance: none;
-                height: 8px;
-                width: 8px;
+                height: 10px;
+                width: 10px;
                 border-radius: 50%;
-                background: #8c71d9;
-                margin-top: -2.5px;
-                box-shadow: 0 0 4px rgba(140, 113, 217, 0.5);
+                background: var(--accent);
+                margin-top: -3px;
+                box-shadow: 0 0 6px var(--accent);
                 transition: transform 0.1s;
             }
 
@@ -416,53 +548,66 @@
                 }
 
             input[type=range]::-moz-range-thumb {
-                height: 8px;
-                width: 8px;
+                height: 10px;
+                width: 10px;
                 border-radius: 50%;
-                background: #8c71d9;
+                background: var(--accent);
                 border: none;
             }
 
-        /* Контейнер громкости */
         .volume-container {
             display: flex;
             align-items: center;
             gap: 6px;
-            width: 80px;
+            width: 70px;
+            z-index: 1;
         }
 
             .volume-container svg {
-                width: 14px;
-                height: 14px;
-                fill: #6a5a7f;
+                width: 16px;
+                height: 16px;
+                fill: var(--accent);
                 cursor: pointer;
+                transition: fill 0.2s;
             }
 
-            .volume-container input[type=range] {
-                width: 100%;
+                .volume-container svg:hover {
+                    fill: var(--text-main);
+                }
+
+            .volume-container input[type=range]::-webkit-slider-runnable-track {
+                height: 3px;
+                background: var(--track-bg);
             }
 
-        /* Кнопки управления */
+            .volume-container input[type=range]::-webkit-slider-thumb {
+                height: 8px;
+                width: 8px;
+                margin-top: -2.5px;
+            }
+
         .controls {
             display: flex;
             align-items: center;
             gap: 12px;
+            z-index: 1;
         }
 
             .controls button {
                 background: none;
                 border: none;
                 cursor: pointer;
-                color: #5a4b6e;
+                color: var(--accent);
                 padding: 0;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                transition: color 0.2s;
+                transition: all 0.2s ease;
             }
 
                 .controls button:hover {
-                    color: #8c71d9;
+                    color: var(--text-main);
+                    transform: scale(1.1);
                 }
 
             .controls svg {
@@ -471,12 +616,27 @@
                 fill: currentColor;
             }
 
-            .controls .play-btn svg {
-                width: 20px;
-                height: 20px;
+            .controls .play-btn {
+                background: linear-gradient(135deg, var(--main-color), var(--accent));
+                border-radius: 50%;
+                width: 36px;
+                height: 36px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+                color: #fff;
             }
 
-        /* Адаптив */
+                .controls .play-btn:hover {
+                    transform: scale(1.1);
+                    color: #fff;
+                }
+
+                .controls .play-btn svg {
+                    width: 18px;
+                    height: 18px;
+                    fill: currentColor;
+                    margin-left: 2px;
+                }
+
         @media (max-width: 540px) {
             .container {
                 padding: 15px;
@@ -491,63 +651,69 @@
             }
 
             .player-card {
-                padding: 10px 12px;
-                gap: 10px;
+                padding: 12px 14px;
+                gap: 12px;
                 flex-wrap: wrap;
             }
 
             .volume-container {
-                width: 60px;
+                display: none;
+            }
+
+            .album-wrapper {
+                width: 48px;
+                height: 48px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Фон -->
-    <div class="bg-image"></div>
+    <!-- Фон с облаками -->
+    <div class="bg-clouds"></div>
     <div class="bg-overlay"></div>
     <div class="stars" id="stars-container"></div>
 
     <!-- Контейнер для лепестков сакуры -->
     <div class="petals-container" id="petals-container"></div>
 
-    <!-- Экран входа для обхода автоплея -->
+    <!-- Экран входа -->
     <div id="intro-screen">
         <div class="intro-text">нажми, чтобы войти</div>
         <button class="enter-btn" id="enter-btn">✦ войти ✦</button>
     </div>
 
-    <!-- Иконка звука (слева вверху) -->
+    <!-- Иконка звука (слева) -->
     <div class="sound-toggle" id="sound-btn" title="Вкл/Выкл музыку">
         <svg id="icon-on" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" /></svg>
         <svg id="icon-off" viewBox="0 0 24 24" style="display: none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" /></svg>
     </div>
 
+    <!-- Кнопка переключения тем (справа) -->
+    <div class="theme-toggle" id="theme-btn" title="Переключить тему">
+        <svg id="icon-moon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z" /></svg>
+        <svg id="icon-sun" viewBox="0 0 24 24" style="display: none;"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 0 0 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z" /></svg>
+    </div>
+
     <!-- Основной контент -->
     <div class="container">
 
-        <!-- Карточка профиля -->
         <div class="profile-card">
             <div class="avatar-container">
-                <!-- ТУТ ИЗМЕНЕНА ССЫЛКА НА АВАТАРКУ -->
-                <img id="main-avatar" src="https://unavatar.io/telegram/munlavi?fallback=github,gravatar" alt="Avatar">
+                <img id="main-avatar" src="https://unavatar.io/telegram/twigsifly?fallback=github,gravatar&v=1" alt="Avatar">
             </div>
 
-            <div class="name" id="profile-name">✩. ๑ Lavi ๑ .✩</div>
+            <div class="name" id="profile-name">⋆.˚ ʚ 𝐿𝑎𝑣𝑖 ɞ ˚.⋆</div>
             <div class="subtitle">La Melodie du Reve</div>
 
-            <!-- Соцсети -->
             <div class="socials">
                 <a href="#" target="_blank" aria-label="TikTok">
                     <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" /></svg>
                 </a>
-                <!-- Ссылка на Discord профиль -->
                 <a href="https://discord.com/users/858061754915356672" target="_blank" aria-label="Discord">
                     <svg viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" /></svg>
                 </a>
-                <!-- Ссылка на Telegram профиль -->
-                <a href="https://t.me/munlavi" target="_blank" aria-label="Telegram">
+                <a href="https://t.me/twigsifly" target="_blank" aria-label="Telegram">
                     <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" /></svg>
                 </a>
             </div>
@@ -558,9 +724,10 @@
             </div>
         </div>
 
-        <!-- Плеер -->
         <div class="player-card">
-            <img class="album-art" src="https://images.unsplash.com/photo-1490750967868-88cb44cb2753?q=80&w=100&auto=format&fit=crop" alt="Cover">
+            <div class="album-wrapper" id="album-wrapper">
+                <img class="album-art" id="main-cover" src="https://i.pinimg.com/736x/ad/46/f3/ad46f3e076d4c472cb39ba0770eab526.jpg" alt="Cover">
+            </div>
 
             <div class="player-content">
                 <div class="track-title" id="track-name">yung kai - wildflower</div>
@@ -572,21 +739,20 @@
                 </div>
             </div>
 
-            <!-- Громкость -->
             <div class="volume-container">
                 <svg viewBox="0 0 24 24" id="vol-icon"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" /></svg>
                 <input type="range" id="volume-bar" min="0" max="1" step="0.01" value="0.5">
             </div>
 
             <div class="controls">
-                <button id="prev-btn" aria-label="Перезапустить">
+                <button id="prev-btn" aria-label="Предыдущий трек">
                     <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" /></svg>
                 </button>
                 <button class="play-btn" id="play-btn" aria-label="Пауза">
                     <svg id="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
                     <svg id="icon-play" viewBox="0 0 24 24" style="display:none;"><path d="M8 5v14l11-7z" /></svg>
                 </button>
-                <button id="next-btn" aria-label="Вперед">
+                <button id="next-btn" aria-label="Следующий трек">
                     <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" /></svg>
                 </button>
             </div>
@@ -594,15 +760,54 @@
 
     </div>
 
-    <audio id="bgm" loop preload="auto"></audio>
+    <audio id="bgm" preload="auto"></audio>
 
     <script>
 /* =====================================================
-           НАСТРОЙКИ
+           ПЛЕЙЛИСТ (СПИСОК ПЕСЕН)
            ===================================================== */
-const MUSIC_SRC   = "music.mp3";            // Путь к mp3
-const TRACK_TITLE = "yung kai - wildflower";// Название трека
-const ALBUM_COVER = "https://images.unsplash.com/photo-1490750967868-88cb44cb2753?q=80&w=100&auto=format&fit=crop";
+const playlist = [
+          {
+            src: "music.mp3",
+            title: "yung kai - wildflower",
+            cover: "https://i.pinimg.com/736x/ad/46/f3/ad46f3e076d4c472cb39ba0770eab526.jpg" // Обложка 1
+          },
+          {
+            src: "wave to earth - love.mp3",
+            title: "wave to earth - love",
+            cover: "https://i.pinimg.com/736x/c0/6b/6b/c06b6b8e054c78d58ceb065d1fb0b399.jpg" // НОВАЯ Обложка 2
+          }
+];
+
+let currentTrackIndex = 0; // Начинаем с первой песни в списке
+
+/* =====================================================
+           ПЕРЕКЛЮЧЕНИЕ ТЕМ
+           ===================================================== */
+const themeBtn  = document.getElementById('theme-btn');
+const iconMoon  = document.getElementById('icon-moon');
+const iconSun   = document.getElementById('icon-sun');
+
+const currentTheme = localStorage.getItem('theme');
+if (currentTheme === 'bw') {
+          document.body.classList.add('bw-theme');
+          iconMoon.style.display = 'none';
+          iconSun.style.display = 'block';
+}
+
+themeBtn.addEventListener('click', () => {
+          document.body.classList.toggle('bw-theme');
+
+          if (document.body.classList.contains('bw-theme')) {
+            localStorage.setItem('theme', 'bw');
+            iconMoon.style.display = 'none';
+            iconSun.style.display = 'block';
+          } else {
+            localStorage.setItem('theme', 'pastel');
+            iconMoon.style.display = 'block';
+            iconSun.style.display = 'none';
+          }
+});
 
 /* =====================================================
            ЭЛЕМЕНТЫ ИНТЕРФЕЙСА
@@ -622,13 +827,13 @@ const iconOff     = document.getElementById('icon-off');
 const volumeBar   = document.getElementById('volume-bar');
 const volIcon     = document.getElementById('vol-icon');
 const mainAvatar  = document.getElementById('main-avatar');
+const albumWrapper= document.getElementById('album-wrapper');
+const trackNameEl = document.getElementById('track-name');
+const mainCoverEl = document.getElementById('main-cover');
 
 // Настройка аудио
-bgm.src = MUSIC_SRC;
 bgm.volume = 0.5;
 volumeBar.value = 0.5;
-document.getElementById('track-name').textContent = TRACK_TITLE;
-document.querySelector('.album-art').src = ALBUM_COVER;
 
 // Счётчик просмотров
 let views = localStorage.getItem('page_views') || 0;
@@ -637,10 +842,9 @@ localStorage.setItem('page_views', views);
 document.getElementById('views-count').textContent = views;
 
 /* =====================================================
-           ЗАГРУЗКА АВАТАРКИ (Fallback, если Unavatar не ответит)
+           ЗАГРУЗКА АВАТАРКИ
            ===================================================== */
-// Запасная картинка (цветочек), если аватарка из ТГ не загрузится
-const svgFallback = "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d3c4ff"/><stop offset="1" stop-color="#ffc9e6"/></linearGradient></defs><rect width="100" height="100" fill="url(#g)"/><text x="50" y="66" font-size="44" text-anchor="middle" fill="#fff">✿</text></svg>`);
+const svgFallback = "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3b1e1"/><stop offset="1" stop-color="#f3e5f5"/></linearGradient></defs><rect width="100" height="100" fill="url(#g)"/><text x="50" y="66" font-size="44" text-anchor="middle" fill="#fff">✿</text></svg>`);
 
 mainAvatar.onerror = () => {
           mainAvatar.onerror = null;
@@ -648,42 +852,68 @@ mainAvatar.onerror = () => {
 };
 
 /* =====================================================
-           СТАРТ И МУЗЫКА
+           ЛОГИКА ПЛЕЕРА И ПЛЕЙЛИСТА
            ===================================================== */
-enterBtn.addEventListener('click', () => {
-          introScreen.classList.add('hidden');
-          bgm.play().then(() => {
-            updatePlayState();
-          }).catch(err => {
-            console.log("Ошибка воспроизведения:", err);
-          });
-});
+function loadTrack(index) {
+          const track = playlist[index];
+          bgm.src = track.src;
+          trackNameEl.textContent = track.title;
+          mainCoverEl.src = track.cover;
+          bgm.load(); // Перезагружаем аудио с новым источником
+}
 
-/* =====================================================
-           УПРАВЛЕНИЕ ПЛЕЕРОМ
-           ===================================================== */
+// Инициализация первого трека
+loadTrack(currentTrackIndex);
+
+// Кнопка "Играть/Пауза"
 function updatePlayState() {
           if (bgm.paused) {
             iconPlay.style.display = 'block';
             iconPause.style.display = 'none';
+            albumWrapper.classList.remove('playing');
           } else {
             iconPlay.style.display = 'none';
             iconPause.style.display = 'block';
+            albumWrapper.classList.add('playing');
           }
 }
 
 playBtn.addEventListener('click', () => {
-          if (bgm.paused) bgm.play();
+          if (bgm.paused) bgm.play().catch(e => console.log(e));
           else bgm.pause();
           updatePlayState();
 });
 
-document.getElementById('prev-btn').addEventListener('click', () => {
-          bgm.currentTime = 0;
-          if (bgm.paused) { bgm.play(); updatePlayState(); }
+// Кнопка "Следующий трек"
+document.getElementById('next-btn').addEventListener('click', () => {
+          currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+          loadTrack(currentTrackIndex);
+          bgm.play().catch(e => console.log(e));
+          updatePlayState();
 });
 
-// Время
+// Кнопка "Предыдущий трек" (или перезапуск, если играет больше 3 сек)
+document.getElementById('prev-btn').addEventListener('click', () => {
+          if (bgm.currentTime > 3) {
+            bgm.currentTime = 0; // Если играет давно, просто перезапускаем
+          } else {
+            // Иначе переключаем на предыдущий
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrackIndex);
+            bgm.play().catch(e => console.log(e));
+          }
+          updatePlayState();
+});
+
+// Автоматическое переключение, когда трек заканчивается
+bgm.addEventListener('ended', () => {
+          currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+          loadTrack(currentTrackIndex);
+          bgm.play().catch(e => console.log(e));
+          updatePlayState();
+});
+
+// Время и прогресс-бар
 function formatTime(seconds) {
           if (isNaN(seconds)) return "0:00";
           const m = Math.floor(seconds / 60);
@@ -697,7 +927,8 @@ bgm.addEventListener('timeupdate', () => {
             timeTotal.textContent = formatTime(bgm.duration);
             const percent = (bgm.currentTime / bgm.duration) * 100;
             seekBar.value = percent;
-            seekBar.style.background = `linear-gradient(to right, #8c71d9 ${percent}%, rgba(255,255,255,0.5) ${percent}%)`;
+            const accentColor = getComputedStyle(document.body).getPropertyValue('--accent').trim();
+            seekBar.style.background = `linear-gradient(to right, ${accentColor} ${percent}%, var(--track-bg) ${percent}%)`;
           }
 });
 
@@ -709,6 +940,20 @@ seekBar.addEventListener('input', () => {
           if (bgm.duration) {
             bgm.currentTime = (seekBar.value / 100) * bgm.duration;
           }
+});
+
+/* =====================================================
+           СТАРТ С САЙТА
+           ===================================================== */
+enterBtn.addEventListener('click', () => {
+          introScreen.classList.add('hidden');
+          bgm.play().then(() => {
+            updatePlayState();
+          }).catch(err => {
+            console.log("Ошибка воспроизведения:", err);
+            // Если браузер заблокировал автоплей, включаем по клику на play
+            updatePlayState();
+          });
 });
 
 /* =====================================================
@@ -756,7 +1001,8 @@ function updateSoundIcons(muted) {
 
 function updateVolumeBarStyle(val) {
           const percent = val * 100;
-          volumeBar.style.background = `linear-gradient(to right, #8c71d9 ${percent}%, rgba(255,255,255,0.5) ${percent}%)`;
+          const accentColor = getComputedStyle(document.body).getPropertyValue('--accent').trim();
+          volumeBar.style.background = `linear-gradient(to right, ${accentColor} ${percent}%, var(--track-bg) ${percent}%)`;
 }
 updateVolumeBarStyle(0.5);
 
